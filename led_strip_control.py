@@ -29,6 +29,131 @@ gamma8 = [
   215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255]
 
 
+class LUMapPixel:
+
+    def __init__(self, pixel_num, station, line):
+        self.pixel_num = pixel_num
+        self.station = station
+        self.line = line
+        self.debug_out()
+
+    def debug_out(self):
+        logger.debug("{} pixel {} {}, ".format(self.pixel_num, self.line, self.station))
+
+
+
+stations = [
+LUMapPixel(0, 'Amersham', 'Met'),
+LUMapPixel(1, 'Chalfort and Latimer', 'Met'),
+LUMapPixel(2,'Rickmansworth' , 'Met'),
+LUMapPixel(3, 'Northwood', 'Met'),
+LUMapPixel(4, 'Pinner', 'Met'),
+LUMapPixel(5, 'Harrow-on-the-hill', 'Met'),
+LUMapPixel(6, 'Northwick Park', 'Met'),
+LUMapPixel(7, 'Preston Road', 'Met'),
+LUMapPixel(8, 'Wembley Park', 'Met'),
+LUMapPixel(9, 'Stanmore', 'Jub'),
+LUMapPixel(10, 'Kingsbury', 'Jub'),
+LUMapPixel(11, 'Wembley Park', 'Jub'),
+LUMapPixel(12, 'Kilburn', 'Jub'),
+LUMapPixel(13, 'Finchley Road', 'Met'),
+LUMapPixel(14, 'Finchley Road', 'Jub'),
+LUMapPixel(15, 'Swiss Cottage', 'Jub'),
+LUMapPixel(16, 'Baker Street', 'Met'),
+LUMapPixel(16, 'Baker Street', 'Circle'),
+LUMapPixel(16, 'Baker Street', 'H&C'),
+LUMapPixel(17, 'Euston Square', 'H&C'),
+LUMapPixel(17, 'Euston Square', 'Met'),
+LUMapPixel(17, 'Euston Square', 'Circle'),
+LUMapPixel(18, 'Kings Cross', 'H&C'),
+LUMapPixel(18, 'Kings Cross', 'Met'),
+LUMapPixel(18, 'Kings Cross', 'Circle'),
+LUMapPixel(19, 'Barbican', 'H&C'),
+LUMapPixel(19, 'Barbican', 'Met'),
+LUMapPixel(19, 'Barbican', 'Circle'),
+LUMapPixel(20, 'Moorgate', 'H&C'),
+LUMapPixel(20, 'Moorgate', 'Met'),
+LUMapPixel(20, 'Moorgate', 'Circle'),
+LUMapPixel(21, 'Liverpool Street', 'H&C'),
+LUMapPixel(21, 'Liverpool Street', 'Met'),
+LUMapPixel(21, 'Liverpool Street', 'Circle'),
+LUMapPixel(22, 'Tower Hill', 'District'),
+LUMapPixel(22, 'Tower Hill', 'Circle'),
+LUMapPixel(23, 'Aldgate East', 'H&C'),
+LUMapPixel(23, 'Aldgate East', 'District'),
+LUMapPixel(33, 'Stepney Green', 'H&C'),
+LUMapPixel(33, 'Stepney Green', 'District'),
+LUMapPixel(24, 'Mile End', 'H&C'),
+LUMapPixel(24, 'Mile End', 'District'),
+LUMapPixel(25, 'West Ham', 'H&C'),
+LUMapPixel(25, 'West Ham', 'District'),
+LUMapPixel(26, 'East Ham', 'H&C'),
+LUMapPixel(26, 'East Ham', 'District'),
+LUMapPixel(28, 'Upminster', 'District'),
+LUMapPixel(29, 'Elm Park', 'District'),
+LUMapPixel(30, 'Upney', 'District'),
+LUMapPixel(31, 'Plaistow', 'District'),
+LUMapPixel(32, 'Bromley-by-Bow', 'District'),
+LUMapPixel(34, 'Aldgate', 'Met'),
+LUMapPixel(34, 'Aldgate', 'Circle'),
+LUMapPixel(35, 'Monument', 'Circle'),
+LUMapPixel(35, 'Monument', 'District'),
+LUMapPixel(38, 'Blackfriars', 'Circle'),
+LUMapPixel(38, 'Blackfriars', 'District'),
+LUMapPixel(36, 'Temple', 'Circle'),
+LUMapPixel(36, 'Temple', 'District'),
+LUMapPixel(37, 'Cannon Street', 'Circle'),
+LUMapPixel(37, 'Cannon Street', 'District'),
+LUMapPixel(39, 'Embankment', 'Circle'),
+LUMapPixel(39, 'Embankment', 'District'),
+LUMapPixel(41, 'Westminster', 'Circle'),
+LUMapPixel(41, 'Westminster', 'District'),
+#LUMapPixel(42, 'Victoria', 'Circle'),
+#LUMapPixel(42, 'Victoria', 'District'),
+LUMapPixel(42, 'South Kensington', 'Circle'),
+LUMapPixel(42, 'South Kensington', 'District'),
+LUMapPixel(43, 'Putney Bridge', 'District'),
+LUMapPixel(44, 'Wimbledon', 'District'),
+LUMapPixel(45, 'Wimbledon Park', 'District'),
+LUMapPixel(46, 'West Brompton', 'District'),
+LUMapPixel(47, 'Richmond', 'District'),
+LUMapPixel(48, 'Ealing Broadway', 'District'),
+LUMapPixel(49, 'Acton Town', 'District'),
+LUMapPixel(50, 'Turnham Green', 'District'),
+LUMapPixel(51, 'Kew Garden', 'District'),
+LUMapPixel(52, 'Ealing Common', 'District'),
+LUMapPixel(53, 'Gunnersby', 'District'),
+LUMapPixel(54, 'Hammersmith', 'H&C'),
+LUMapPixel(54, 'Hammersmith', 'Circle'),
+LUMapPixel(55, 'Ladbroke Grove', 'H&C'),
+LUMapPixel(55, 'Ladbroke Grove', 'Circle'),
+LUMapPixel(56, 'High Street Kensington', 'Circle'),
+LUMapPixel(56, 'High Street Kensington', 'District'),
+LUMapPixel(57, 'Earls Court', 'District'),
+LUMapPixel(58, 'Notting Hill Gate', 'Circle'),
+LUMapPixel(58, 'Notting Hill Gate', 'District'),
+LUMapPixel(59, 'Wood Lane', 'H&C'),
+LUMapPixel(59, 'Wood Lane', 'Circle'),
+LUMapPixel(60, 'Paddington', 'H&C'),
+LUMapPixel(60, 'Paddington', 'Circle'),
+LUMapPixel(61, 'Paddington', 'Circle'),
+LUMapPixel(61, 'Paddington', 'District'),
+LUMapPixel(62, 'Edgware Road', 'Circle'),
+LUMapPixel(62, 'Edgware Road', 'H&C'),
+LUMapPixel(62, 'Edgware Road', 'District'),
+LUMapPixel(63, 'Royal Oak', 'H&C'),
+LUMapPixel(63, 'Royal Oak', 'Circle'),
+
+]
+
+line_colours = {
+'District':(51, 51, 0),
+'Circle':(75, 75, 35),
+'H&C':(50, 85, 85),
+'Jub': (75, 75, 75),
+'Met': (0, 102, 51)
+}
+
 # Class to  control the LED Strip based on the tweets.
 class LedStripControl(threading.Thread):
 
@@ -44,10 +169,21 @@ class LedStripControl(threading.Thread):
         self.strip.begin()
         self.incoming_queue = queue.Queue()
 
-    def set_same_colour(self, colour):
-        for i in range(self.strip.numPixels()):
+    def set_same_colour(self, colour, count= None):
+
+        if (count == None):
+            count = self.strip.numPixels()
+
+        print(count)
+        for i in range(count):
             self.strip.setPixelColor(i, rpi_ws281x.Color(*colour))
         self.strip.show()
+
+    def station_query(self, pixel):
+        for item in stations:
+            if item.pixel_num == pixel:
+                print(item.pixel_num, item.line, item.station)
+
 
     '''
     # Set the strip colours according to the passed in list.  Set Twinkle Ratio to 0 if you don't want any twinkle.
@@ -91,6 +227,34 @@ class LedStripControl(threading.Thread):
             self.strip.setPixelColor(i, rpi_ws281x.Color(0, 0, 0))
 
         self.strip.show()
+
+    def pixel_travel(self):
+        for i in range(0, 64):
+            self.strip.setPixelColor(i, rpi_ws281x.Color(85, 85, 0))
+            self.strip.show()
+            print(i)
+            self.station_query(i)
+            time.sleep(1)
+            self.strip.setPixelColor(i, rpi_ws281x.Color(0, 0, 0))
+            self.strip.show()
+
+    def draw_line(self, line):
+        for i in range(100):
+            self.strip.setPixelColor(i, rpi_ws281x.Color(0, 0, 0))
+        for station in stations:
+            print(station.pixel_num, station.line, station.station)
+            if station.line == line:
+                print("match line ", station.line)
+                self.strip.setPixelColor(station.pixel_num, rpi_ws281x.Color(*line_colours[line]))
+        self.strip.show()
+
+    def pixel_jump(self):
+        for i in range(100):
+            self.strip.setPixelColor(i, rpi_ws281x.Color(85, 85, 0))
+            self.strip.show()
+            time.sleep(0.3 - i * 0.003)
+            self.strip.setPixelColor(i, rpi_ws281x.Color(50, 0, 50))
+            self.strip.show()
 
     def run(self):
         try:
@@ -181,16 +345,38 @@ if __name__ == "__main__":
     while True:
         led_strip.pixel_clear()
         print("pixel Clear")
-        time.sleep(1)
+        time.sleep(0.1)
 
         #tweet_strip.set_strip_colours(colours)
-        for colour in colours:
-            print(colour)
-            led_strip.set_same_colour(colour)
-            time.sleep(1)
+        #for colour in colours:
+        #    print(colour)
+        #    led_strip.set_same_colour(colour)
+        #    time.sleep(1)
 
-        for i in range (100, 200):
-            colour = [i, i, i]
-            print(colour)
-            led_strip.set_same_colour(colour)
-            time.sleep(0.1)
+        led_strip.pixel_clear()
+        #led_strip.pixel_jump()
+
+        #for i in range (100, 255):
+        colour = [70, 70, 70]
+        #    print(colour)
+        #led_strip.set_same_colour(colour, count=100)
+
+        #led_strip.pixel_travel()
+        led_strip.draw_line('District')
+        time.sleep(2)
+
+        led_strip.draw_line('Circle')
+        time.sleep(2)
+
+        led_strip.draw_line('H&C')
+        time.sleep(2)
+
+        led_strip.draw_line('Met')
+        time.sleep(2)
+
+        led_strip.draw_line('Jub')
+        time.sleep(2)
+
+
+
+        #time.sleep(5)
