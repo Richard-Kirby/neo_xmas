@@ -31,7 +31,7 @@ gamma8 = [
 
 
 line_colours = {
-'District':(51, 51, 0),
+'District':(51, 0, 0),
 'Circle':(75, 75, 35),
 'H&C':(50, 85, 85),
 'Jub': (75, 75, 75),
@@ -54,20 +54,18 @@ def populate_pixels(line):
         line_data = db_con.execute("SELECT * FROM STATION WHERE Line == '{}'".format(line))
 
         for station in line_data:
-            print(station[2], station[3])
-
             pointer = db_con.execute("UPDATE Pixels SET Status ='Good Service', Station = 'Wimby', Line =  '{}' where PixelNum =='{}'" .format(line, station[3]))
 
             pointer = db_con.execute("SELECT * FROM Pixels where PixelNum =='{}'".format(station[3]))
 
-            for point in pointer:
-                print(station[3])
-                print(point[0], point[1], point[2], point[3], point[4])
+            #for point in pointer:
+            #   print(station[3])
+            #    print(point[0], point[1], point[2], point[3], point[4])
 
-        pixel_data = db_con.execute("SELECT * FROM PIXELS")
+        #pixel_data = db_con.execute("SELECT * FROM PIXELS")
 
-        for pixel in pixel_data:
-            print("Pix Data", pixel[0], pixel[1], pixel[2], pixel[3], pixel[4])
+        #for pixel in pixel_data:
+        #    print("Pix Data", pixel[0], pixel[1], pixel[2], pixel[3], pixel[4])
 
 
 
@@ -168,21 +166,6 @@ class LedStripControl(threading.Thread):
 
         self.strip.show()
 
-        # todo stopped here - trying to select colours based on lines
-
-        '''
-        for key in line_colours.keys():
-            for pixel in pixel_data:
-                if pixel[2] == key:
-
-                print(pixel[0], pixel[1], pixel[2], pixel[3])
-
-
-
-
-
-        self.strip.show()
-        '''
 
     def draw_line(self, line):
         for i in range(100):
@@ -279,63 +262,25 @@ class LedStripControl(threading.Thread):
             # Todo: Can't get back to 0 RPM when shutdown by Ctrl-C
             logger.error("finally")
 
+
 if __name__ == "__main__":
 
     # LED strip configuration:
-    LED_COUNT      = 100      # Number of LED pixels.
-    LED_PIN        = 18      # GPIO pin connected to the pixels (must support PWM!).
+    LED_COUNT = 100      # Number of LED pixels.
+    LED_PIN = 18      # GPIO pin connected to the pixels (must support PWM!).
 
     led_strip = LedStripControl(LED_COUNT, LED_PIN, type = rpi_ws281x.SK6812_STRIP)
 
-    colours = [(75,0,0) , (0,75,0), (0, 0, 75), (75, 0, 75), (75, 75, 75), (100, 100, 100)]
+    lines = ['Circle', 'District', 'H&C', 'Jub', 'Met']
 
     while True:
         led_strip.pixel_clear()
-        print("pixel Clear")
-        time.sleep(0.1)
 
-        #tweet_strip.set_strip_colours(colours)
-        #for colour in colours:
-        #    print(colour)
-        #    led_strip.set_same_colour(colour)
-        #    time.sleep(1)
-
-        led_strip.pixel_clear()
-        #led_strip.pixel_jump()
-
-        #for i in range (100, 255):
-        colour = [70, 70, 70]
-        #    print(colour)
-        #led_strip.set_same_colour(colour, count=100)
-
-        #led_strip.pixel_travel()
-
-        #led_strip.draw_pixel_states()
-        populate_pixels('Circle')
-        populate_pixels('District')
-        populate_pixels('H&C')
-        populate_pixels('Met')
+        for i in range(len(lines)):
+            populate_pixels(lines[i])
 
         led_strip.draw_pixel_states()
 
+        end = lines.pop()
+        lines.insert(0, end)
         time.sleep(2)
-
-        '''
-        led_strip.draw_line('District')
-        time.sleep(2)
-
-        led_strip.draw_line('Circle')
-        time.sleep(2)
-
-        led_strip.draw_line('H&C')
-        time.sleep(2)
-
-        led_strip.draw_line('Met')
-        time.sleep(2)
-
-        led_strip.draw_line('Jub')
-        time.sleep(2)
-        '''
-
-
-        #time.sleep(5)
