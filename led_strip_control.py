@@ -49,17 +49,17 @@ def ret_records(line):
     return line_data
 
 # Populate pixels in the defined order.
-def populate_pixels(line):
+def populate_pixels(line, status):
     with db_con:
         line_data = db_con.execute("SELECT * FROM STATION WHERE Line == '{}'".format(line))
 
         for station in line_data:
-            pointer = db_con.execute("UPDATE Pixels SET Status ='Good Service', Station = 'Wimby', Line =  '{}' where PixelNum =='{}'" .format(line, station[3]))
+            pointer = db_con.execute("UPDATE Pixels SET Status ='{}', Station = '{}', Line = '{}' where PixelNum =='{}'"
+                                     .format(status, line, station[1], station[3]))
 
-            pointer = db_con.execute("SELECT * FROM Pixels where PixelNum =='{}'".format(station[3]))
+            #pointer = db_con.execute("SELECT * FROM Pixels where PixelNum =='{}'".format(station[3]))
 
             #for point in pointer:
-            #   print(station[3])
             #    print(point[0], point[1], point[2], point[3], point[4])
 
         #pixel_data = db_con.execute("SELECT * FROM PIXELS")
@@ -84,6 +84,14 @@ class LedStripControl(threading.Thread):
         # Intialize the library (must be called once before other functions).
         self.strip.begin()
         self.incoming_queue = queue.Queue()
+        self.patterns = {
+            'Good Service': [1, 1, 1, 1, 1, 1, 1, 1],
+            'Severe Delays': [1, 0, 1, 0, 1, 0, 1, 0],
+            'Minor Delays': [1, 1, 1, 0, 1, 1, 1, 0],
+            'Closure': [1, 0, 0, 0, 1, 0, 0, 0],
+            'default': [1, 0, 0, 0, 1, 0, 0, 0]
+        }
+
 
     def set_same_colour(self, colour, count= None):
 
@@ -161,11 +169,26 @@ class LedStripControl(threading.Thread):
         with db_con:
             pixel_data = db_con.execute("Select * from Pixels WHERE Status != 'No Status'")
 
-            for pixel in pixel_data:
-                self.strip.setPixelColor(pixel[1], rpi_ws281x.Color(*line_colours[pixel[3]]))
+        for pixel in pixel_data:
+            service_type = pixel[4]
+
+            # Set service type to default if not recognised.
+            if service_type not in self.patterns.keys():
+                print("Error - don't recognise {}".format(service_type))
+                service_type = 'default'
+
+            colour = (self.patterns[service_type][0] * line_colours[pixel[2]][0],
+                      self.patterns[service_type][0] * line_colours[pixel[2]][1],
+                      self.patterns[service_type][0] * line_colours[pixel[2]][2])
+
+            self.strip.setPixelColor(pixel[1], rpi_ws281x.Color(*colour))
+
+        # rotate the pattern
+        for key in self.patterns.keys():
+            last_item = self.patterns[key].pop()
+            self.patterns[key].insert(0, last_item)
 
         self.strip.show()
-
 
     def draw_line(self, line):
         for i in range(100):
@@ -180,7 +203,6 @@ class LedStripControl(threading.Thread):
             if station[2] == line:
                 self.strip.setPixelColor(station[3], rpi_ws281x.Color(*line_colours[line]))
         self.strip.show()
-
 
     def pixel_jump(self):
         for i in range(100):
@@ -276,11 +298,17 @@ if __name__ == "__main__":
     while True:
         led_strip.pixel_clear()
 
-        for i in range(len(lines)):
-            populate_pixels(lines[i])
+        populate_pixels(lines[0], 'Good Service')
+        populate_pixels(lines[1], 'Severe Delays')
+        populate_pixels(lines[2], 'Minor Delays')
+        populate_pixels(lines[3], 'Closure')
+        populate_pixels(lines[4], 'Good Service')
 
-        led_strip.draw_pixel_states()
+        for i in range(48):
+            led_strip.draw_pixel_states()
+            time.sleep(0.1)
 
+        # Change the lines around so the one on top is modified.
+        # Important for shared stations as only on LED.
         end = lines.pop()
         lines.insert(0, end)
-        time.sleep(2)
